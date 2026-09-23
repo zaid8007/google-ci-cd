@@ -2,7 +2,7 @@ name: Node.js CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main", "master" ] # Triggers on either branch name to be safe!
+    branches: [ "main", "master" ]
 
 jobs:
   build-and-test:
@@ -23,5 +23,17 @@ jobs:
     - name: Run Tests
       run: npm test --if-present
 
-    - name: Build Docker Image
-      run: docker build -t my-node-app:latest .
+    # NEW STEP 1: Tell the robot to unlock and log into Docker Hub
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    # NEW STEP 2: Build and automatically push the box to the cloud library
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-node-app:latest
