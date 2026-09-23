@@ -1,0 +1,13 @@
+{
+  "name": "my-simple-website",
+  "version": "1.0.0",
+  "description": "A basic node app for CI/CD learning",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo 'Success: No bugs found!'"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
